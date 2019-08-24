@@ -1,5 +1,6 @@
 let daiContractAbi = [{"constant":false,"inputs":[{"name":"usr","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
-
+const Web3Utils = require("web3-utils")
+const Web3 = require("web3")
 const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
 const amazonDaiBackendUrl = "http://localhost:3000"
 let web3
@@ -104,24 +105,24 @@ async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, d
 
     const fromAddress = paymentAccount
     const toAddress = merchantAccount
-    const amount = web3.utils.toHex(daiAmount)
+    const amount = Web3Utils.toHex(daiAmount)
     const count = await web3.eth.getTransactionCount(fromAddress)
 
     const transactionConfig = {
-        "gasPrice": web3.utils.toHex(2 * 1e9),
-        "gasLimit": web3.utils.toHex(210000),
-        "nonce": web3.utils.toHex(count)
+        "gasPrice": Web3Utils.toHex(2 * 1e9),
+        "gasLimit": Web3Utils.toHex(210000),
+        "nonce": Web3Utils.toHex(count)
     }
 
     const contract = new web3.eth.Contract(daiContractAbi, daiContractAddress)
 
     var rawTransaction = {
         "from": fromAddress,
-        "gasPrice": web3.utils.toHex(2 * 1e9),
-        "gasLimit": web3.utils.toHex(210000),
+        "gasPrice": Web3Utils.toHex(2 * 1e9),
+        "gasLimit": Web3Utils.toHex(210000),
         "to": daiContractAddress,
         "data": contract.methods.transferFrom(fromAddress, toAddress, amount).encodeABI(),
-        "nonce": web3.utils.toHex(count)
+        "nonce": Web3Utils.toHex(count)
     }
 
     //const signedTransaction = await web3.eth.signTransaction(rawTransaction)
