@@ -30,6 +30,7 @@
   "author": "ugly-kittens",
   "dependencies": {
     "@godaddy/terminus": "^2.4.1",
+    "@koa/cors": "^2.2.3",
     "envfefe": "^1.2.0",
     "koa": "^2.3.0",
     "koa-body": "^4.1.1",
