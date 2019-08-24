@@ -9,10 +9,13 @@ console.log("web 3");
 console.log(Web3);
 
 
-let enterVoucher = () => {
-    /*document.getElementById("gcpromoinput").value = "dai dai";
+let enterVoucher = (voucher) => {
+    document.getElementById("gcpromoinput").value = voucher;
+
+    /* this will apply voucher
     let voucherButton = document.getElementById('button-add-gcpromo');
-    voucherButton.form.submit();*/
+     */
+    voucherButton.form.submit();
 
     // remove voucher display
     let voucherInfo = document.getElementById("existing-balance");
@@ -30,7 +33,7 @@ let payAction = async () => {
     //let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
 
     let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
-    enterVoucher();
+    enterVoucher(voucher);
     addSuccessInfo(txHash);
 }
 
