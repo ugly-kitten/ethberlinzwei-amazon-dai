@@ -1,7 +1,12 @@
-let payAction = () => {
+import ethereum from './ethereum.js';
+
+const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
+let payAction = async () => {
     document.getElementById("gcpromoinput").value = "dai dai";
 
-    // todo add payment logic
+    console.log(ethereum);
+    let result = await ethereum(daiContractAddress,"dummy@dummy.de","1000");
+
     let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
     addSuccessInfo(txHash);
 }
