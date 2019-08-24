@@ -9,7 +9,7 @@ export default function getConfig() {
       sanitize: sanitize.string
     },
     port: {
-      default: 3000,
+      default: 3001,
       sanitize: sanitize.number
     },
     db: {
@@ -17,7 +17,7 @@ export default function getConfig() {
       sanitize: sanitize.string
     },
     localAddress: {
-      default: "0xfddef72d7fd2e53e4559e42733485a9b400acf99",
+      default: "0xfDdEf72D7Fd2E53E4559e42733485a9B400ACf99",
       sanitize: sanitize.string
     }
   })

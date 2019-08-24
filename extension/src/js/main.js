@@ -2,7 +2,7 @@ let daiContractAbi = [{"constant":false,"inputs":[{"name":"usr","type":"address"
 const Web3Utils = require("web3-utils")
 const Web3 = require("web3")
 const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
-const amazonDaiBackendUrl = "http://localhost:3000"
+const amazonDaiBackendUrl = "http://localhost:3001"
 let web3
 
 console.log("web 3");
@@ -23,10 +23,11 @@ let enterVoucher = () => {
 
 
 let payAction = async () => {
-
+    document.getElementById("gcpromoinput").value = "dai dai";
+    const voucher = await checkout(daiContractAddress,"very@ugly-kitten.com",1000);
 
     // metamask checkout
-   //let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
+    //let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
 
     let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
     enterVoucher();
@@ -120,9 +121,6 @@ injectAmazon();
 
 
 export default async function checkout(merchantAccount, customerEmail, daiAmount) {
-
-    console.log("checkout: ",merchantAccount,customerEmail,daiAmount);
-
     if (!window.ethereum) {
         throw (new Error("You browser does not support crypto payments"))
     }
@@ -133,14 +131,11 @@ export default async function checkout(merchantAccount, customerEmail, daiAmount
     }
 
     const transactionHash = await submitPaymentTransaction(web3, paymentAccount, merchantAccount, daiContractAddress, daiAmount)
-   // const voucher = await submitPaymentReceipt(transactionHash, customerEmail)
-    const voucher = "party party";
+    const voucher = await submitPaymentReceipt(transactionHash, customerEmail)
     return {transactionHash, voucher};
 }
 
 async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, daiContractAddress, daiAmount) {
-    console.log("submit: ",paymentAccount, merchantAccount,daiContractAddress,daiAmount);
-
     const fromAddress = paymentAccount
     const toAddress = merchantAccount
     const amount = Web3Utils.toHex(daiAmount)
@@ -163,34 +158,34 @@ async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, d
         "nonce": Web3Utils.toHex(count)
     }
 
-    //const signedTransaction = await web3.eth.signTransaction(rawTransaction)
     const transaction = await web3.eth.sendTransaction(rawTransaction)
     return transaction.transactionHash
 }
 
 async function submitPaymentReceipt(transactionHash, customerEmail) {
-    const settings = {
-        method: 'POST',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "text/plain",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Methods":"*"
-        },
-        body: JSON.stringify({
-            txid: transactionHash,
-            email: customerEmail
-        }),
-        mode: "cors"
-    }
-    
-    let res
-    try {
-        res = await fetch(`${amazonDaiBackendUrl}/voucher`, settings)
-        console.log(res)
-        return res
-    } catch (error) {
-        throw (new Error(`Can not connect to backend service ${error}`))
-    }    
+    return new Promise((resolve, reject) => {
+        const settings = {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "text/plain",
+                "Access-Control-Allow-Origin": "*"
+            },
+            body: JSON.stringify({
+                txid: transactionHash,
+                email: customerEmail
+            })
+        }
+        try {
+           fetch(`${amazonDaiBackendUrl}/voucher`, settings)
+           .then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                resolve(data.token)
+            });
+        } catch (error) {
+            reject(new Error(`Can not connect to backend service ${error}`))
+        }
+
+      })
 }
