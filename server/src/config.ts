@@ -17,7 +17,7 @@ export default function getConfig() {
       sanitize: sanitize.string
     },
     localAddress: {
-      default: "0xa24df0420de1f3b8d740a52aaeb9d55d6d64478e",
+      default: "0x2cab5720ce6e95fdfda58c1a6c693580324b7109",
       sanitize: sanitize.string
     }
   })

@@ -3,6 +3,7 @@ const FileSync = require("lowdb/adapters/FileSync")
 const Web3Eth = require("web3-eth")
 
 export async function processVoucherRequest(localAddress: string, dbs: string, obj) {
+  obj.dev = true
   console.log("Processing Voucher request with data", obj, "on", dbs)
   const weth = new Web3Eth("https://kovan.infura.io/v3/b999b0e08a564d9d8fa7f6e94c125153")
   const txr = await weth.getTransactionReceipt(obj.txid)
@@ -14,7 +15,7 @@ export async function processVoucherRequest(localAddress: string, dbs: string, o
     console.log("Recipient address doesn't match with tx recipient", txr.to, localAddress)
     return ""
   }
-  const value = obj.value // change to tx.value
+  //const value = obj.value // change to tx.value
   const adapter = new FileSync(dbs)
   const db = low(adapter)
   let vouchers = db.get("vouchers").value()
@@ -22,7 +23,7 @@ export async function processVoucherRequest(localAddress: string, dbs: string, o
   for (var key in vouchers) {
     if (
       vouchers[key].email == obj.email &&
-      vouchers[key].value > value &&
+      //vouchers[key].value > value &&
       !vouchers[key].redeemed
     ) {
       voucherFound = vouchers[key]
