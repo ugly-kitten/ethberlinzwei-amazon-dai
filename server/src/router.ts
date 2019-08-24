@@ -1,5 +1,6 @@
 import Router from "koa-router"
-var bodyParser = require("koa-bodyparser")
+import { Context } from "koa"
+import bodyParser from "koa-body"
 
 import { Config } from "./config"
 import { processVoucherRequest } from "./routes/voucher"
@@ -7,18 +8,12 @@ import { processVoucherRequest } from "./routes/voucher"
 export default function createRouter(config: Config) {
   const router = new Router()
   router.use(bodyParser())
-  router.use(async ctx => {
-    // the parsed body will store in ctx.request.body
-    // if nothing was parsed, body will be an empty object {}
-    ctx.body = ctx.request.body
-  })
   router.prefix(config.basePath)
 
-  router.post("/voucher", function(ctx) {
-    console.log("Request Context", ctx)
-    ctx.body = processVoucherRequest(ctx.body)
-    ctx.status = 200
-    console.log("Response Context", ctx.response)
+  router.post("/voucher", async function(ctx: Context) {
+    const { request, response } = ctx
+    response.body = await processVoucherRequest(config.localAddress, config.db, request.body)
+    response.status = 200
   })
 
   return router

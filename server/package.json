@@ -32,7 +32,10 @@
     "@godaddy/terminus": "^2.4.1",
     "envfefe": "^1.2.0",
     "koa": "^2.3.0",
-    "koa-router": "^7.3.0"
+    "koa-body": "^4.1.1",
+    "koa-router": "^7.3.0",
+    "lowdb": "^1.0.0",
+    "web3-eth": "^1.2.1"
   },
   "devDependencies": {
     "@types/koa": "^2.0.46",
@@ -42,7 +45,6 @@
     "ava-ts": "^0.24.6",
     "dotenv": "^6.0.0",
     "husky": "^0.14.3",
-    "koa-bodyparser": "^4.2.1",
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.6",
     "supertest": "^3.0.0",
