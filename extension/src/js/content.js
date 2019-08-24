@@ -8,6 +8,7 @@ let daiBox;
 let addBox = () => {
     daiBox = document.createElement('div');
     daiBox.setAttribute('class', 'a-box a-spacing-base');
+    daiBox.setAttribute('style', 'width:805px;paddingBottom:10px;paddingLeft:10px');
     wrapperForDai.appendChild(daiBox);
 
 };
@@ -28,10 +29,11 @@ let addDAIButton = () => {
     wrapperForDai.appendChild(document.createElement('br'));
 
     let text = document.createElement('p');
-    text.value = "At Amazon we support your Crypto";
+    text.innerText = "At Amazon we support your Crypto";
 
    daiBox.appendChild(text);
    daiBox.appendChild(button);
+   daiBox.appendChild(document.createElement('br'));
 
 
 };
