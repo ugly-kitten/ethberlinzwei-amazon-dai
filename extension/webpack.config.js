@@ -25,11 +25,11 @@ var options = {
     options: path.join(__dirname, "src", "js", "options.js"),
     background: path.join(__dirname, "src", "js", "background.js"),
       content: "./src/js/content.js",
-      ethereum: "./src/js/ethereum.js",
-      web3: "./src/js/ethereum.js"
+      main: "./src/js/main.js",
+      web3: "./src/js/web3.js"
   },
     chromeExtensionBoilerplate: {
-        notHotReload: ["content","ethereum"]
+        notHotReload: ["content","main"]
     },
   output: {
     path: path.join(__dirname, "build"),

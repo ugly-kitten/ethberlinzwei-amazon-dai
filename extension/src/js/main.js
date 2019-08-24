@@ -1,10 +1,82 @@
 import Web3 from './web3'
 let daiContractAbi = [{"constant":false,"inputs":[{"name":"usr","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
-
 const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
 const amazonDaiBackendUrl = "http://localhost:3000"
 let web3
+
+let payAction = async () => {
+    document.getElementById("gcpromoinput").value = "dai dai";
+
+    console.log(window);
+    console.log(window.ethereum);
+  // let result = await daiCheckout(daiContractAddress,"dummy@dummy.de","1000");
+
+    let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
+    addSuccessInfo(txHash);
+}
+
+let wrapperForDai = document.getElementById("imb-wrapper");
+let daiBox;
+let daiButton;
+let text;
+
+let addBox = () => {
+    daiBox = document.createElement('div');
+    daiBox.setAttribute('class', 'a-box a-spacing-base');
+    daiBox.setAttribute('style', 'width:805px;paddingBottom:10px;paddingLeft:10px');
+    wrapperForDai.appendChild(daiBox);
+
+};
+
+let addHeadline = () => {
+    let headline = document.createElement('h1');
+    headline.setAttribute("class", "a-spacing-base");
+    headline.innerHTML = "Pay with Crypto";
+    wrapperForDai.appendChild(headline);
+};
+
+let addDAIButton = () => {
+    daiButton = document.createElement('input');
+    daiButton.setAttribute('type', 'button');
+    daiButton.setAttribute('value', 'Pay with DAI');
+    daiButton.setAttribute('class', ' a-button-text');
+    daiButton.addEventListener("click", payAction, false);
+    wrapperForDai.appendChild(document.createElement('br'));
+
+    text = document.createElement('p');
+    text.innerText = "At Amazon we support your Crypto";
+
+    daiBox.appendChild(text);
+    daiBox.appendChild(daiButton);
+    daiBox.appendChild(document.createElement('br'));
+
+
+};
+
+let hideOtherPayments = () => {
+    let mainPayments = document.getElementById("existing-payment-methods");
+    mainPayments.setAttribute("hidden", true);
+
+    let alternativePayments =  document.getElementById("new-payment-methods");
+    alternativePayments.setAttribute("hidden", true);
+}
+
+let addSuccessInfo = (txHash) => {
+    hideOtherPayments();
+    daiButton.setAttribute("hidden", true);
+    text.innerText = "Success! TxHash:" + txHash;
+};
+
+let injectAmazon = () => {
+    addHeadline();
+    addBox();
+    addDAIButton();
+};
+
+injectAmazon();
+
+
 
 export default async function checkout(merchantAccount, customerEmail, daiAmount) {
 
@@ -48,29 +120,33 @@ async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, d
     }
 
     //const signedTransaction = await web3.eth.signTransaction(rawTransaction)
-    const transactionHash = await web3.eth.sendTransaction(rawTransaction)
-    return transactionHash
-
+    const transaction = await web3.eth.sendTransaction(rawTransaction)
+    return transaction.transactionHash
 }
 
 async function submitPaymentReceipt(transactionHash, customerEmail) {
     const settings = {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            "Accept": "application/json",
+            "Content-Type": "text/plain",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods":"*"
         },
-        data: {
+        body: JSON.stringify({
             txid: transactionHash,
             email: customerEmail
-        }
+        }),
+        mode: "cors"
     }
-
+    
     let res
     try {
         res = await fetch(`${amazonDaiBackendUrl}/voucher`, settings)
-        return res.json()
+        console.log(res)
+        return res
     } catch (error) {
         throw (new Error(`Can not connect to backend service ${error}`))
-    }
+    }    
 }
