@@ -1,6 +1,7 @@
 const low = require("lowdb")
 const FileSync = require("lowdb/adapters/FileSync")
 const Web3Eth = require("web3-eth")
+const web3utils = require("web3-utils")
 
 export async function processVoucherRequest(localAddress: string, dbs: string, obj) {
   obj.dev = true
@@ -11,11 +12,14 @@ export async function processVoucherRequest(localAddress: string, dbs: string, o
     console.log("tx error", localAddress)
     return ""
   }
-  if (txr.to != localAddress) {
-    console.log("Recipient address doesn't match with tx recipient", txr.to, localAddress)
+  const tx = await weth.getTransaction(obj.txid)
+  const str = tx.input
+  const toAddr = "0x" + str.substring(74 + 24, 74 + 64)
+  const amount = web3utils.toDecimal(str.substring(74 + 65, 74 + 65 + 64))
+  if (toAddr != localAddress) {
+    console.log("Recipient address doesn't match with tx recipient", toAddr, localAddress)
     return ""
   }
-  //const value = obj.value // change to tx.value
   const adapter = new FileSync(dbs)
   const db = low(adapter)
   let vouchers = db.get("vouchers").value()
@@ -23,7 +27,7 @@ export async function processVoucherRequest(localAddress: string, dbs: string, o
   for (var key in vouchers) {
     if (
       vouchers[key].email == obj.email &&
-      //vouchers[key].value > value &&
+      vouchers[key].value > amount &&
       !vouchers[key].redeemed
     ) {
       voucherFound = vouchers[key]
