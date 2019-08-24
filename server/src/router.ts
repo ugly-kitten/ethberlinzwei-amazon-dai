@@ -8,11 +8,8 @@ export default function createRouter(config: Config) {
 
   router.prefix(config.basePath)
 
-  router.get("/status/live", function(ctx) {
-    ctx.status = 200
-  })
-
   router.get("/hello/:name", function(ctx) {
+    console.log("context params", ctx.params.name)
     ctx.body = sayHello(ctx.params.name)
   })
 
