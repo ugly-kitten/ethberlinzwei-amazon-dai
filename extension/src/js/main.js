@@ -44,7 +44,7 @@ let addBox = () => {
 let addHeadline = () => {
     let headline = document.createElement('h1');
     headline.setAttribute("class", "a-spacing-base");
-    headline.innerHTML = "Pay with Crypto";
+    headline.innerHTML = "Pay with DAI";
     wrapperForDai.appendChild(headline);
 };
 
@@ -57,8 +57,7 @@ let addDAIButton = () => {
     wrapperForDai.appendChild(document.createElement('br'));
 
     text = document.createElement('p');
-    text.innerText = "At Amazon we support your Crypto";
-
+    text.innerText = "At Amazon we stand for the empowerment of the individual and equal access to a stable monetary system. Pay with your DAI - Stablecoin";
     daiBox.appendChild(text);
     daiBox.appendChild(daiButton);
     daiBox.appendChild(document.createElement('br'));
