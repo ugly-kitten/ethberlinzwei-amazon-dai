@@ -1,0 +1,55 @@
+{
+  "name": "amazon-dai-server",
+  "version": "0.0.0",
+  "description": "Boilerplate to setup a backend service",
+  "main": "src/index.ts",
+  "scripts": {
+    "precommit": "lint-staged",
+    "preversion": "[ -z \"$CI\" ] || exit 0 && echo 'Versions can only be created in CI tools' && exit 1",
+    "start": "node build/index.js",
+    "dev": "ts-node-dev -r dotenv/config .",
+    "test": "ava-ts",
+    "test:watch": "ava-ts --watch",
+    "test:ci": "ava-ts --tap | tap-xunit > /tmp/reports/ava.xml",
+    "build": "tsc",
+    "lint": "tslint --project . 'src/**/*.ts'",
+    "lint:fix": "tslint --fix --project . 'src/**/*.ts'",
+    "prettier": "prettier --list-different '{src,test}/**/*.{md,ts,tsx,js,json}'",
+    "prettier:fix": "prettier --write '{src,test}/**/*.{md,ts,tsx,js,json}'"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{md,ts,tsx,js,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "ugly-kittens",
+  "dependencies": {
+    "@godaddy/terminus": "^2.4.1",
+    "envfefe": "^1.2.0",
+    "koa": "^2.3.0",
+    "koa-router": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.30",
+    "@types/supertest": "^2.0.4",
+    "ava": "^0.22.0",
+    "ava-ts": "^0.24.6",
+    "dotenv": "^6.0.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.6",
+    "supertest": "^3.0.0",
+    "tap-xunit": "^1.7.0",
+    "ts-node": "^7.0.0",
+    "ts-node-dev": "^1.0.0-pre.26",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "typescript": "^2.9.2"
+  }
+}

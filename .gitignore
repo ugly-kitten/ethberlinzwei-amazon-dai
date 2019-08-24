@@ -1,0 +1,10 @@
+/.idea/
+/target/
+/build/
+/.env/
+/plain.env/
+/test-results.xml
+node_modules/
+/yarn-error.log
+/npm-debug.log
+/cache
