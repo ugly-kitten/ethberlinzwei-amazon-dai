@@ -24,7 +24,7 @@ var options = {
     popup: path.join(__dirname, "src", "js", "popup.js"),
     options: path.join(__dirname, "src", "js", "options.js"),
     background: path.join(__dirname, "src", "js", "background.js"),
-      content: "./src/js/content.js"
+      content: "./src/js/content.js",
   },
     chromeExtensionBoilerplate: {
         notHotReload: ["content"]
@@ -86,6 +86,11 @@ var options = {
       filename: "background.html",
       chunks: ["background"]
     }),
+      new HtmlWebpackPlugin({
+          template: path.join(__dirname, "src", "embedded.html"),
+          filename: "embedded.html",
+          chunks: ["embedded"]
+      }),
     new WriteFilePlugin()
   ]
 };
