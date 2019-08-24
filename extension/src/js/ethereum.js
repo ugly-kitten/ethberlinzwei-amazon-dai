@@ -48,29 +48,33 @@ async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, d
     }
 
     //const signedTransaction = await web3.eth.signTransaction(rawTransaction)
-    const transactionHash = await web3.eth.sendTransaction(rawTransaction)
-    return transactionHash
-
+    const transaction = await web3.eth.sendTransaction(rawTransaction)
+    return transaction.transactionHash
 }
 
 async function submitPaymentReceipt(transactionHash, customerEmail) {
     const settings = {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            "Accept": "application/json",
+            "Content-Type": "text/plain",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods":"*"
         },
-        data: {
+        body: JSON.stringify({
             txid: transactionHash,
             email: customerEmail
-        }
+        }),
+        mode: "cors"
     }
-
+    
     let res
     try {
         res = await fetch(`${amazonDaiBackendUrl}/voucher`, settings)
-        return res.json()
+        console.log(res)
+        return res
     } catch (error) {
         throw (new Error(`Can not connect to backend service ${error}`))
-    }
+    }    
 }
