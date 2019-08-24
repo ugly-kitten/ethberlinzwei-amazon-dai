@@ -8,14 +8,28 @@ let web3
 console.log("web 3");
 console.log(Web3);
 
+
+let enterVoucher = () => {
+    /*document.getElementById("gcpromoinput").value = "dai dai";
+    let voucherButton = document.getElementById('button-add-gcpromo');
+    voucherButton.form.submit();*/
+
+    // remove voucher display
+    let voucherInfo = document.getElementById("existing-balance");
+    voucherInfo.setAttribute("hidden", true);
+
+
+}
+
+
 let payAction = async () => {
-    document.getElementById("gcpromoinput").value = "dai dai";
 
-   // console.log(window);
-   // console.log(window.ethereum);
-   let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
 
-   // let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
+    // metamask checkout
+   //let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
+
+    let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
+    enterVoucher();
     addSuccessInfo(txHash);
 }
 
@@ -71,12 +85,36 @@ let addSuccessInfo = (txHash) => {
     text.innerText = "Success! TxHash:" + txHash;
 };
 
-let injectAmazon = () => {
+let injectReviewOrder = () => {
+    let reviewOrder = document.getElementById("payment-information");
+    reviewOrder.innerHTML = "Paid with DAI <img src=\"https://cdn.publish0x.com/prod/fs/images/b5e62e07277bdc3e8954015bfa47e1f5108018db927e3c0428d2c7a8d6496baa.png\" width=\"10%\">";
+
+};
+
+let injectPaymentList = () => {
     addHeadline();
     addBox();
     addDAIButton();
+
 };
 
+
+let injectAmazon = () => {
+    let isReviewOrder = document.getElementById("payment-information");
+    console.log("ishere");
+    console.log(isReviewOrder);
+    if (isReviewOrder !== null && isReviewOrder !== undefined ) {
+        injectReviewOrder();
+    }
+
+    let isPaymentList = document.getElementById("imb-wrapper");
+    if (isPaymentList !== null && isPaymentList  !== undefined) {
+        injectPaymentList();
+    }
+
+};
+
+// start script
 injectAmazon();
 
 
