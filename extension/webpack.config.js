@@ -29,7 +29,7 @@ var options = {
       web3: "./src/js/web3.js"
   },
     chromeExtensionBoilerplate: {
-        notHotReload: ["content","main"]
+        notHotReload: ["content","main","web3"]
     },
   output: {
     path: path.join(__dirname, "build"),

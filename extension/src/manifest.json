@@ -17,7 +17,7 @@
       "matches": [
         "https://www.amazon.com/gp/buy/payselect/handlers/display.html*"
       ],
-      "js": ["content.bundle.js","web3.bundle.js"]
+      "js": ["content.bundle.js"]
     }
   ],
   "permissions": [

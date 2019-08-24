@@ -8,11 +8,11 @@ let web3
 let payAction = async () => {
     document.getElementById("gcpromoinput").value = "dai dai";
 
-    console.log(window);
-    console.log(window.ethereum);
-  // let result = await daiCheckout(daiContractAddress,"dummy@dummy.de","1000");
+   // console.log(window);
+   // console.log(window.ethereum);
+   let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
 
-    let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
+   // let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
     addSuccessInfo(txHash);
 }
 
