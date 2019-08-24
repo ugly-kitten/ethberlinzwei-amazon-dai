@@ -15,8 +15,7 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://www.amazon.com/gp/buy/payselect/handlers/display.html*"
       ],
       "js": ["content.bundle.js"]
     }
