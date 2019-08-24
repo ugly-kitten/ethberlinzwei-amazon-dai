@@ -1,9 +1,11 @@
-import Web3 from './web3'
 let daiContractAbi = [{"constant":false,"inputs":[{"name":"usr","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
 const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
 const amazonDaiBackendUrl = "http://localhost:3000"
 let web3
+
+console.log("web 3");
+console.log(Web3);
 
 let payAction = async () => {
     document.getElementById("gcpromoinput").value = "dai dai";
@@ -80,6 +82,8 @@ injectAmazon();
 
 export default async function checkout(merchantAccount, customerEmail, daiAmount) {
 
+    console.log("checkout: ",merchantAccount,customerEmail,daiAmount);
+
     if (!window.ethereum) {
         throw (new Error("You browser does not support crypto payments"))
     }
@@ -96,6 +100,7 @@ export default async function checkout(merchantAccount, customerEmail, daiAmount
 }
 
 async function submitPaymentTransaction(web3, paymentAccount, merchantAccount, daiContractAddress, daiAmount) {
+    console.log("submit: ",paymentAccount, merchantAccount,daiContractAddress,daiAmount);
 
     const fromAddress = paymentAccount
     const toAddress = merchantAccount

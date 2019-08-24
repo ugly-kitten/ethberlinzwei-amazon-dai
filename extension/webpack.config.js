@@ -26,10 +26,12 @@ var options = {
     background: path.join(__dirname, "src", "js", "background.js"),
       content: "./src/js/content.js",
       main: "./src/js/main.js",
-      web3: "./src/js/web3.js"
+      web3: "./src/js/web3.js",
+      bundle: "./src/js/bundle.js"
+
   },
     chromeExtensionBoilerplate: {
-        notHotReload: ["content","main","web3"]
+        notHotReload: ["content","main","web3","bundle"]
     },
   output: {
     path: path.join(__dirname, "build"),
