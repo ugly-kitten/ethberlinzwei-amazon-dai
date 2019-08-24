@@ -1,9 +1,15 @@
 let payAction = () => {
     document.getElementById("gcpromoinput").value = "dai dai";
+
+    // todo add payment logic
+    let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
+    addSuccessInfo(txHash);
 }
 
 let wrapperForDai = document.getElementById("imb-wrapper");
 let daiBox;
+let daiButton;
+let text;
 
 let addBox = () => {
     daiBox = document.createElement('div');
@@ -14,36 +20,48 @@ let addBox = () => {
 };
 
 let addHeadline = () => {
-    var headline = document.createElement('h1');
+    let headline = document.createElement('h1');
     headline.setAttribute("class", "a-spacing-base");
     headline.innerHTML = "Pay with Crypto";
     wrapperForDai.appendChild(headline);
 };
 
 let addDAIButton = () => {
-    let button = document.createElement('input');
-    button.setAttribute('type', 'button');
-    button.setAttribute('value', 'Pay with DAI');
-    button.setAttribute('class', ' a-button-text');
-    button.addEventListener("click", payAction, false);
+    daiButton = document.createElement('input');
+    daiButton.setAttribute('type', 'button');
+    daiButton.setAttribute('value', 'Pay with DAI');
+    daiButton.setAttribute('class', ' a-button-text');
+    daiButton.addEventListener("click", payAction, false);
     wrapperForDai.appendChild(document.createElement('br'));
 
-    let text = document.createElement('p');
+    text = document.createElement('p');
     text.innerText = "At Amazon we support your Crypto";
 
    daiBox.appendChild(text);
-   daiBox.appendChild(button);
+   daiBox.appendChild(daiButton);
    daiBox.appendChild(document.createElement('br'));
 
 
 };
-addHeadline();
-addBox();
-addDAIButton();
 
+let hideOtherPayments = () => {
+    let mainPayments = document.getElementById("existing-payment-methods");
+    mainPayments.setAttribute("hidden", true);
 
-//
-// var iFrame  = document.createElement ("iframe");
-// iFrame.src  = chrome.extension.getURL ("embedded.html");
-//
-// document.body.insertBefore (iFrame, document.body.firstChild);
+    let alternativePayments =  document.getElementById("new-payment-methods");
+    alternativePayments.setAttribute("hidden", true);
+}
+
+let addSuccessInfo = (txHash) => {
+    hideOtherPayments();
+    daiButton.setAttribute("hidden", true);
+    text.innerText = "Success! TxHash:" + txHash;
+};
+
+let injectAmazon = () => {
+    addHeadline();
+    addBox();
+    addDAIButton();
+};
+
+injectAmazon();
