@@ -1,40 +1,31 @@
 let daiContractAbi = [{"constant":false,"inputs":[{"name":"usr","type":"address"},{"name":"wad","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 const Web3Utils = require("web3-utils")
 const Web3 = require("web3")
-const daiContractAddress = "0x2cab5720ce6e95fdfda58c1a6c693580324b7109"
+const daiContractAddress = "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359"
+const merchantAddress = "0xE6C0353e8b6ce79814BBA28C0eEB08C0268dEc45"
 const amazonDaiBackendUrl = "http://localhost:3001"
 let web3
 
-console.log("web 3");
-console.log(Web3);
-
-
 let enterVoucher = (voucher) => {
     document.getElementById("gcpromoinput").value = voucher;
-
-    /* this will apply voucher
-    let voucherButton = document.getElementById('button-add-gcpromo');
-     */
+   
+    let voucherButton = document.getElementById("button-add-gcpromo");
     voucherButton.form.submit();
-
     // remove voucher display
-    let voucherInfo = document.getElementById("existing-balance");
-    voucherInfo.setAttribute("hidden", true);
-
-
-}
-
+    setInterval(function(){
+        let voucherInfo = document.getElementById("existing-balance");
+        voucherInfo && voucherInfo.setAttribute("hidden", true);
+        hideOtherPayments();
+        addSuccessInfo();
+        }, 400);
+ };
 
 let payAction = async () => {
     document.getElementById("gcpromoinput").value = "dai dai";
-    const voucher = await checkout(daiContractAddress,"very@ugly-kitten.com",1000);
+    const { voucher, transactionHash } = await checkout(merchantAddress,"very@ugly-kitten.com", 10620000000000000000);
 
-    // metamask checkout
-    //let result = await checkout(daiContractAddress,"dummy@dummy.de",1000);
-
-    let txHash = "0x68147866d3b99da7e3ccab5a1cd21e8fc89b98e5e4b8d63b172f6cda25320e90";
     enterVoucher(voucher);
-    addSuccessInfo(txHash);
+    addSuccessInfo(transactionHash);
 }
 
 let wrapperForDai = document.getElementById("imb-wrapper");
@@ -75,14 +66,6 @@ let addDAIButton = () => {
 
 };
 
-let hideOtherPayments = () => {
-    let mainPayments = document.getElementById("existing-payment-methods");
-    mainPayments.setAttribute("hidden", true);
-
-    let alternativePayments =  document.getElementById("new-payment-methods");
-    alternativePayments.setAttribute("hidden", true);
-}
-
 let addSuccessInfo = (txHash) => {
     hideOtherPayments();
     daiButton.setAttribute("hidden", true);
@@ -96,17 +79,23 @@ let injectReviewOrder = () => {
 };
 
 let injectPaymentList = () => {
+    let voucherInfo = document.getElementById("existing-balance");
+    voucherInfo && voucherInfo.setAttribute("hidden", true);
     addHeadline();
     addBox();
     addDAIButton();
 
 };
 
+let hideOtherPayments = () => {
+    let mainPayments = document.getElementById("existing-payment-methods");
+    mainPayments && mainPayments.setAttribute("hidden", true);
+    let alternativePayments =  document.getElementById("new-payment-methods");
+    alternativePayments && alternativePayments.setAttribute("hidden", true);
+ }
 
 let injectAmazon = () => {
     let isReviewOrder = document.getElementById("payment-information");
-    console.log("ishere");
-    console.log(isReviewOrder);
     if (isReviewOrder !== null && isReviewOrder !== undefined ) {
         injectReviewOrder();
     }
