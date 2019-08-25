@@ -6,7 +6,7 @@ const merchantAddress = "0xE6C0353e8b6ce79814BBA28C0eEB08C0268dEc45"
 const amazonDaiBackendUrl = "http://localhost:3001"
 let web3
 
-let enterVoucher = (voucher) => {
+let enterVoucher = (voucher,transactionHash) => {
     document.getElementById("gcpromoinput").value = voucher;
    
     let voucherButton = document.getElementById("button-add-gcpromo");
@@ -16,7 +16,7 @@ let enterVoucher = (voucher) => {
         let voucherInfo = document.getElementById("existing-balance");
         voucherInfo && voucherInfo.setAttribute("hidden", true);
         hideOtherPayments();
-        addSuccessInfo();
+        addSuccessInfo(transactionHash);
         }, 400);
  };
 
@@ -24,7 +24,7 @@ let payAction = async () => {
     document.getElementById("gcpromoinput").value = "dai dai";
     const { voucher, transactionHash } = await checkout(merchantAddress,"very@ugly-kitten.com", 10620000000000000000);
 
-    enterVoucher(voucher);
+    enterVoucher(voucher, transactionHash);
     addSuccessInfo(transactionHash);
 }
 
