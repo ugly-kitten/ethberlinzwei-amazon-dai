@@ -1,5 +1,5 @@
 # ethberlinzwei-amazon-dai
-Hackathon projcect. A prototype to integrate DAI-Stablecoins payments into Amazon checkout flow.
+Hackathon project. A prototype to integrate DAI-Stablecoins payments into Amazon checkout flow.
 
 # Team
 - Alina Sinelnikova
